@@ -1,23 +1,8 @@
-#include <raylib.h>
+#include "window/game_loop.hpp"
 
 int main() {
-    // Init the window
-    InitWindow(800, 600, "AlphaRook");
+    GameLoop game_window = GameLoop(800, 600, "AlphaRook");
+    game_window.run();
 
-    // Main Game Loop
-    while (!WindowShouldClose()) {
-        // Begin Drawing
-        BeginDrawing();
-
-        // Set background Colour
-        ClearBackground(RAYWHITE);
-
-        DrawText("Hello World!", 350, 280, 20, BLACK);
-
-        // End Drawing
-        EndDrawing();
-    }
-
-    CloseWindow();
     return 0;
 }
