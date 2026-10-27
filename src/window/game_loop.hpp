@@ -4,11 +4,10 @@
 class GameLoop {
   private:
     const int length;
-    const char *title;
 
   public:
     // Init
-    GameLoop(const int length, const char *title);
+    GameLoop(const int length);
 
     // Functions to manipulate the board
     void run();

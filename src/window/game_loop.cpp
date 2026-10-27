@@ -2,11 +2,11 @@
 
 #include <raylib.h>
 
-GameLoop::GameLoop(const int length, const char *title)
-    : length(length), title(title) {}
+GameLoop::GameLoop(const int length)
+    : length(length) {}
 
 void GameLoop::run() {
-    InitWindow(length, length, title);
+    InitWindow(length, length, "AlphaRook");
 
     const int SQUARE_LENGTH = length / 8;
 
