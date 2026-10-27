@@ -3,7 +3,8 @@
 #include <raylib.h>
 
 GameLoop::GameLoop(PLAYER_COLOUR playerColour, const int length)
-    : length(length), playerColour(playerColour) {}
+    : length(length),
+      playerColour(playerColour) {}
 
 void GameLoop::run() {
     InitWindow(length, length, "AlphaRook");
