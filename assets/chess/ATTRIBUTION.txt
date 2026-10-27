@@ -1,0 +1,29 @@
+Chess piece assets
+
+Artwork: Cburnett, via Wikimedia Commons.
+License selected: Creative Commons Attribution-ShareAlike 3.0 Unported (CC BY-SA 3.0).
+License: https://creativecommons.org/licenses/by-sa/3.0/
+
+SVG originals are unchanged except for descriptive filenames.
+PNG versions are 256 x 256 rasterizations with transparent backgrounds.
+PNG rasterization: rsvg-convert --width 256 --height 256 --output piece.png piece.svg
+Filenames: {white|black}_{king|queen|rook|bishop|knight|pawn}.{png|svg}
+PNGs are in this folder; SVG originals are in svg/.
+
+Raylib example (run from project root):
+Texture2D king = LoadTexture("assets/chess/white_king.png");
+UnloadTexture(king); // before closing the window
+
+Source files:
+white_king: https://commons.wikimedia.org/wiki/File:Chess_klt45.svg
+white_queen: https://commons.wikimedia.org/wiki/File:Chess_qlt45.svg
+white_rook: https://commons.wikimedia.org/wiki/File:Chess_rlt45.svg
+white_bishop: https://commons.wikimedia.org/wiki/File:Chess_blt45.svg
+white_knight: https://commons.wikimedia.org/wiki/File:Chess_nlt45.svg
+white_pawn: https://commons.wikimedia.org/wiki/File:Chess_plt45.svg
+black_king: https://commons.wikimedia.org/wiki/File:Chess_kdt45.svg
+black_queen: https://commons.wikimedia.org/wiki/File:Chess_qdt45.svg
+black_rook: https://commons.wikimedia.org/wiki/File:Chess_rdt45.svg
+black_bishop: https://commons.wikimedia.org/wiki/File:Chess_bdt45.svg
+black_knight: https://commons.wikimedia.org/wiki/File:Chess_ndt45.svg
+black_pawn: https://commons.wikimedia.org/wiki/File:Chess_pdt45.svg
