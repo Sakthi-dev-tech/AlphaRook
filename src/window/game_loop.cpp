@@ -32,6 +32,8 @@ void GameLoop::run() {
     std::vector<Texture2D> TEXTURES = {};
 
     for (Image image : IMAGES) {
+        assert(IsImageValid(image));
+
         const Texture2D imageTexture = LoadTextureFromImage(image);
         TEXTURES.push_back(imageTexture);
 
