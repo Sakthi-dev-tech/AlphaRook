@@ -3,12 +3,14 @@
 
 class GameLoop {
   private:
-    const int width;
-    const int height;
+    const int length;
     const char *title;
 
   public:
-    GameLoop(const int width, const int height, const char *title);
+    // Init
+    GameLoop(const int length, const char *title);
+
+    // Functions to manipulate the board
     void run();
 };
 

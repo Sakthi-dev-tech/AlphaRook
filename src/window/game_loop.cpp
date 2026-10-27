@@ -2,21 +2,36 @@
 
 #include <raylib.h>
 
-GameLoop::GameLoop(const int width, const int height, const char *title)
-    : width(width), height(height), title(title) {}
+GameLoop::GameLoop(const int length, const char *title)
+    : length(length), title(title) {}
 
 void GameLoop::run() {
-    InitWindow(width, height, title);
+    InitWindow(length, length, title);
+
+    const int SQUARE_LENGTH = length / 8;
 
     // Main Game Loop
     while (!WindowShouldClose()) {
         // Begin Drawing
         BeginDrawing();
 
+        // Options for RayLib Window
+        SetTargetFPS(60);
+        SetTraceLogLevel(LOG_WARNING);
+
         // Set background Colour
         ClearBackground(RAYWHITE);
 
-        DrawText("Hello World!", 350, 280, 20, BLACK);
+        for (int row = 0; row < length; row += SQUARE_LENGTH) {
+            for (int col = 0; col < length; col += SQUARE_LENGTH) {
+                int row_idx = row / SQUARE_LENGTH;
+                int col_idx = col / SQUARE_LENGTH;
+
+                if (row_idx % 2 == 0 && col_idx % 2 != 0 || row_idx % 2 != 0 && col_idx % 2 == 0) {
+                    DrawRectangle(row, col, SQUARE_LENGTH, SQUARE_LENGTH, RED);
+                }
+            }
+        }
 
         // End Drawing
         EndDrawing();
