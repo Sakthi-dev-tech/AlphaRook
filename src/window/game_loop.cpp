@@ -1,6 +1,7 @@
 #include "game_loop.hpp"
 
 #include <cassert>
+#include <cmath>
 #include <cstdint>
 #include <raylib.h>
 #include <vector>
@@ -87,10 +88,24 @@ void GameLoop::run() {
                     }
 
                     if (curr_piece_bit & col_bit) {
-                        const Vector2 texture_position = Vector2{
-                            (float)(bit_idx * SQUARE_LENGTH), (float)y_coord};
+                        const int x_coord = (bit_idx * SQUARE_LENGTH);
+
+                        float scale =
+                            (SQUARE_LENGTH / 256.0f) * std::sqrt(0.5f);
+                        float texture_x_coord =
+                            x_coord + (SQUARE_LENGTH -
+                                       TEXTURES[piece_idx].width * scale) /
+                                          2.0f;
+
+                        float texture_y_coord =
+                            y_coord + (SQUARE_LENGTH -
+                                       TEXTURES[piece_idx].height * scale) /
+                                          2.0f;
+
+                        const Vector2 texture_position =
+                            Vector2{texture_x_coord, texture_y_coord};
                         DrawTextureEx(TEXTURES[piece_idx], texture_position,
-                                      0.0f, 0.2f, WHITE);
+                                      0.0f, scale, WHITE);
                     }
 
                     curr_piece_bit = curr_piece_bit << 1;
@@ -103,7 +118,7 @@ void GameLoop::run() {
     }
 
     // Unload each texture
-    for (Texture texture: TEXTURES) {
+    for (Texture texture : TEXTURES) {
         UnloadTexture(texture);
     }
 
