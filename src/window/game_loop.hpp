@@ -52,6 +52,10 @@ class GameLoop {
 
     // Functions to manipulate the board
     void run();
+
+    // Get the asset index at a certain coordinate
+    // @returns -1 if empty 0-12 if there is a piece
+    int get_asset_idx(int x_idx, int y_idx);
 };
 
 #endif

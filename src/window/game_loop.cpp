@@ -71,44 +71,26 @@ void GameLoop::run() {
                     DrawRectangle(x_coord, y_coord, SQUARE_LENGTH,
                                   SQUARE_LENGTH, RED);
                 }
-            }
 
-            assert(bitBoard.size() == 12);
-            const uint8_t col_bit = 0b10000000;
+                int piece_idx = GameLoop::get_asset_idx(col_idx, row_idx);
 
-            // For each piece
-            for (int piece_idx = 0; piece_idx < 12; piece_idx++) {
+                if (piece_idx != -1) {
+                    float scale = (SQUARE_LENGTH / 256.0f) * std::sqrt(0.5f);
+                    float piece_x_coord =
+                        x_coord +
+                        (SQUARE_LENGTH - TEXTURES[piece_idx].width * scale) /
+                            2.0f;
 
-                uint8_t curr_piece_bit =
-                    (bitBoard[piece_idx] >> (8 * (7 - row_idx))) & 0xFFULL;
+                    float piece_y_coord =
+                        y_coord +
+                        (SQUARE_LENGTH - TEXTURES[piece_idx].height * scale) /
+                            2.0f;
 
-                for (int bit_idx = 0; bit_idx < 8; bit_idx++) {
-                    if (curr_piece_bit == 0) {
-                        break;
-                    }
+                    const Vector2 asset_position =
+                        Vector2{piece_x_coord, piece_y_coord};
 
-                    if (curr_piece_bit & col_bit) {
-                        const int x_coord = (bit_idx * SQUARE_LENGTH);
-
-                        float scale =
-                            (SQUARE_LENGTH / 256.0f) * std::sqrt(0.5f);
-                        float texture_x_coord =
-                            x_coord + (SQUARE_LENGTH -
-                                       TEXTURES[piece_idx].width * scale) /
-                                          2.0f;
-
-                        float texture_y_coord =
-                            y_coord + (SQUARE_LENGTH -
-                                       TEXTURES[piece_idx].height * scale) /
-                                          2.0f;
-
-                        const Vector2 texture_position =
-                            Vector2{texture_x_coord, texture_y_coord};
-                        DrawTextureEx(TEXTURES[piece_idx], texture_position,
-                                      0.0f, scale, WHITE);
-                    }
-
-                    curr_piece_bit = curr_piece_bit << 1;
+                    DrawTextureEx(TEXTURES[piece_idx], asset_position, 0.0f,
+                                  scale, WHITE);
                 }
             }
         }
@@ -123,4 +105,22 @@ void GameLoop::run() {
     }
 
     CloseWindow();
+}
+
+int GameLoop::get_asset_idx(int x_idx, int y_idx) {
+    uint64_t mask = 1;
+    mask = mask << x_idx;
+    mask = mask << (y_idx * 8);
+
+    assert(bitBoard.size() == 12);
+
+    for (int piece_idx = 0; piece_idx < 12; piece_idx++) {
+        const uint64_t piece_bit = bitBoard[piece_idx];
+
+        if (piece_bit & mask) {
+            return piece_idx;
+        }
+    }
+
+    return -1;
 }
