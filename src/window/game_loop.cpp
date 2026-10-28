@@ -108,7 +108,7 @@ void GameLoop::run() {
 }
 
 int GameLoop::get_asset_idx(int x_idx, int y_idx) {
-    uint64_t mask = 1;
+    uint64_t mask = 1ULL;
     mask = mask << (x_idx + y_idx * 8);
 
     assert(bitBoard.size() == 12);
