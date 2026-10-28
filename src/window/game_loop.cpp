@@ -39,6 +39,8 @@ void GameLoop::run() {
         assert(IsImageValid(image));
 
         const Texture2D imageTexture = LoadTextureFromImage(image);
+        assert(IsTextureValid(imageTexture));
+
         TEXTURES.push_back(imageTexture);
 
         UnloadImage(image);
@@ -56,8 +58,6 @@ void GameLoop::run() {
 
         // Set background Colour
         ClearBackground(RAYWHITE);
-
-        const uint8_t bit_mask = 0b11111111;
 
         // (0, 0) is at the top-left corner
         for (int y_coord = 0; y_coord < length; y_coord += SQUARE_LENGTH) {
@@ -109,8 +109,7 @@ void GameLoop::run() {
 
 int GameLoop::get_asset_idx(int x_idx, int y_idx) {
     uint64_t mask = 1;
-    mask = mask << x_idx;
-    mask = mask << (y_idx * 8);
+    mask = mask << (x_idx + y_idx * 8);
 
     assert(bitBoard.size() == 12);
 
