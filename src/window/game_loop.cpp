@@ -1,7 +1,7 @@
 #include "game_loop.hpp"
 
-#include <array>
 #include <cassert>
+#include <cstdint>
 #include <raylib.h>
 #include <vector>
 
@@ -56,26 +56,55 @@ void GameLoop::run() {
         // Set background Colour
         ClearBackground(RAYWHITE);
 
+        const uint8_t bit_mask = 0b11111111;
+
+        // (0, 0) is at the top-left corner
         for (int y_coord = 0; y_coord < length; y_coord += SQUARE_LENGTH) {
+            int row_idx = y_coord / SQUARE_LENGTH;
+
             for (int x_coord = 0; x_coord < length; x_coord += SQUARE_LENGTH) {
-                int row_idx = y_coord / SQUARE_LENGTH;
                 int col_idx = x_coord / SQUARE_LENGTH;
 
                 if (row_idx % 2 == 0 && col_idx % 2 != 0 ||
                     row_idx % 2 != 0 && col_idx % 2 == 0) {
-                    DrawRectangle(x_coord, y_coord, SQUARE_LENGTH, SQUARE_LENGTH, RED);
+                    DrawRectangle(x_coord, y_coord, SQUARE_LENGTH,
+                                  SQUARE_LENGTH, RED);
                 }
+            }
 
-                // TEST RENDERING
-                if (row_idx == 6) {
-                    const Vector2 curr_pos = Vector2{(float)x_coord, (float)y_coord};
-                    DrawTextureEx(TEXTURES[0], curr_pos, 0.0f, 0.4f, WHITE);
+            assert(bitBoard.size() == 12);
+            const uint8_t col_bit = 0b10000000;
+
+            // For each piece
+            for (int piece_idx = 0; piece_idx < 12; piece_idx++) {
+
+                uint8_t curr_piece_bit =
+                    (bitBoard[piece_idx] >> (8 * (7 - row_idx))) & 0xFFULL;
+
+                for (int bit_idx = 0; bit_idx < 8; bit_idx++) {
+                    if (curr_piece_bit == 0) {
+                        break;
+                    }
+
+                    if (curr_piece_bit & col_bit) {
+                        const Vector2 texture_position = Vector2{
+                            (float)(bit_idx * SQUARE_LENGTH), (float)y_coord};
+                        DrawTextureEx(TEXTURES[piece_idx], texture_position,
+                                      0.0f, 0.2f, WHITE);
+                    }
+
+                    curr_piece_bit = curr_piece_bit << 1;
                 }
             }
         }
 
         // End Drawing
         EndDrawing();
+    }
+
+    // Unload each texture
+    for (Texture texture: TEXTURES) {
+        UnloadTexture(texture);
     }
 
     CloseWindow();

@@ -6,7 +6,7 @@
 
 enum class PLAYER_COLOUR { White, Black };
 
-enum class BIT_BOARD {
+enum class BIT_BOARD_IDX {
     // White pieces indexes
     WHITE_PAWN = 0,
     WHITE_BISHOP = 1,
