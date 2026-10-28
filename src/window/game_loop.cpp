@@ -1,5 +1,6 @@
 #include "game_loop.hpp"
 
+#include <array>
 #include <cassert>
 #include <raylib.h>
 #include <vector>
@@ -12,6 +13,8 @@ void GameLoop::run() {
 
     const int SQUARE_LENGTH = length / 8;
 
+    // DO NOT USE THIS!
+    // THIS IS JUST USED TO CREATE TEXTURES REQUIRED
     const Image IMAGES[12] = {
         LoadImage("assets/chess/white_pawn.png"),
         LoadImage("assets/chess/white_bishop.png"),
@@ -53,14 +56,20 @@ void GameLoop::run() {
         // Set background Colour
         ClearBackground(RAYWHITE);
 
-        for (int row = 0; row < length; row += SQUARE_LENGTH) {
-            for (int col = 0; col < length; col += SQUARE_LENGTH) {
-                int row_idx = row / SQUARE_LENGTH;
-                int col_idx = col / SQUARE_LENGTH;
+        for (int y_coord = 0; y_coord < length; y_coord += SQUARE_LENGTH) {
+            for (int x_coord = 0; x_coord < length; x_coord += SQUARE_LENGTH) {
+                int row_idx = y_coord / SQUARE_LENGTH;
+                int col_idx = x_coord / SQUARE_LENGTH;
 
                 if (row_idx % 2 == 0 && col_idx % 2 != 0 ||
                     row_idx % 2 != 0 && col_idx % 2 == 0) {
-                    DrawRectangle(row, col, SQUARE_LENGTH, SQUARE_LENGTH, RED);
+                    DrawRectangle(x_coord, y_coord, SQUARE_LENGTH, SQUARE_LENGTH, RED);
+                }
+
+                // TEST RENDERING
+                if (row_idx == 6) {
+                    const Vector2 curr_pos = Vector2{(float)x_coord, (float)y_coord};
+                    DrawTextureEx(TEXTURES[0], curr_pos, 0.0f, 0.4f, WHITE);
                 }
             }
         }
